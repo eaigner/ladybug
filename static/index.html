@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Report an Issue</title>
+</head>
+<style type="text/css">
+	body {
+		font-family: Helvetica, Arial, sans-serif;
+		font-size: 13px;
+		background-color: #f8f8f8;
+		color: #333;
+		margin: 40px;
+	}
+	input[type=text], textarea {
+		width: 100%;
+		border: 1px solid #ccc;
+		border-radius: 3px;
+		padding: 5px;
+	}
+	textarea {
+		min-height: 60px;
+	}
+	select {
+		width: 100%;
+	}
+	label {
+		font-weight: bold;
+		display: block;
+		margin: 10px 0 5px 0;
+		text-shadow: 0 1px 0 #fff;
+	}
+	.issue,
+	.title,
+	.send,
+	.note,
+	.hint {
+		width: 400px;
+		display: block;
+		margin: 0 auto;
+	}
+	.hint {
+		color: #aaa;
+		font-size: 12px;
+		margin-top: 5px;
+	}
+	.note {
+		background-color: #FFF6AC;
+		border: 1px solid #FFEB5B;
+		border-radius: 3px;
+		padding: 5px;
+		text-align: center;
+		margin: 30px 0;
+	}
+	.title {
+		margin: 30px auto;
+		text-align: center;
+	}
+	.send {
+		margin: 20px 0;
+	}
+</style>
+<body>
+
+<h2 class="title">Report an Issue</h2>
+
+<form class="issue" action="/create" method="POST" enctype="multipart/form-data" onsubmit="document.getElementById('submit_btn').disabled = 1;">
+	<label for="name">Name</label>
+	<input type="text" name="name"></input>
+	<p class="hint">Your name</p>
+
+	<label for="email">Email</label>
+	<input type="text" name="email"></input>
+	<p class="hint">The email address we should reply to</p>
+
+	<label for="info">Customer Info</label>
+	<input type="text" name="info"></input>
+	<p class="hint">Provide additional info like your license email, etc.</p>
+
+	<label for="prodver">Product Version</label>
+	<input type="text" name="prodver"></input>
+	<p class="hint">The version you are using, e.g. 3.7.x</p>
+
+	<label for="platform">Platform</label>
+	<select name="platform">
+    	<option>iOS 7</option>
+    	<option>iOS 6</option>
+    	<option>Simulator</option>
+    	<option>Other (specify in 'Additional Info')</option>
+    </select>
+    <p class="hint">The platform you are experiencing the issue on</p>
+
+    <label for="summary">Summary</label>
+	<input type="text" name="summary"></input>
+	<p class="hint">One line summary of your issue</p>
+
+	<label for="desc">Description</label>
+	<textarea name="desc"></textarea>
+	<p class="hint">Describe your issue in more detail</p>
+
+	<label for="repro">Steps to reproduce the issue</label>
+	<textarea name="repro"></textarea>
+	<p class="hint">Tell us how we can reproduce your problem step by step</p>
+
+	<label for="file">Upload an example project</label>
+	<input type="file" name="file"></input>
+	<p class="hint">Preferably ZIP, max. 10MB</p>
+
+	<input type="text" name="honey" style="display:none">
+
+	<p class="note">Please check that your current version is up to date<br> before filing a new issue!</p>
+
+	<input class="send" id="submit_btn" type="submit" value="Send"></input
+</form>
+
+</body>
+</html>

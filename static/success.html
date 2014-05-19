@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Success!</title>
+	<style type="text/css">
+		body {
+			font-family: Helvetica, Arial, sans-serif;
+			font-size: 13px;
+		}
+		.box {
+			width: 400px;
+			margin: 40px auto;
+			border:; 1px solid #aaa;
+			background-color: #f8f8f8;
+			border-radius: 5px;
+			padding: 10px;
+			text-align: center;
+		}
+	</style>
+	<script type="text/javascript">
+		window.getParameterByName = function (name) {
+			name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+			var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+					results = regex.exec(location.search);
+			return (results === null) ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+		};
+		window.setIssueId = function () {
+			console.log('ID', location.search);
+			document.getElementById('issue-no').innerHTML = getParameterByName('id');
+		};
+	</script>
+</head>
+<body onload="setIssueId()">
+
+<div class="box">
+	<h3>Created Issue #<span id="issue-no"></span></h3>
+	<p>Please use this ID to follow up on any problems regarding this issue</p>
+</div>
+
+</body>
+</html>
