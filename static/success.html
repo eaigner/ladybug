@@ -25,7 +25,6 @@
 			return (results === null) ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
 		};
 		window.setIssueId = function () {
-			console.log('ID', location.search);
 			document.getElementById('issue-no').innerHTML = getParameterByName('id');
 		};
 	</script>

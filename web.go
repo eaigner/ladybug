@@ -40,7 +40,7 @@ var conf = map[string]string{
 const issueFmt = "Reported By: [%s](mailto:%s)\n" +
 	"Version: %s\n" +
 	"Platform: %s\n" +
-	"Attachment: [%s](http://s3.amazonaws.com/%s/%s)\n" +
+	"Attachment: [%s](%s)\n" +
 	"Customer: %s\n" +
 	"Description:\n\n```\n%s\n```\n\n" +
 	"How to reproduce:\n\n```\n%s\n```\n\n"
@@ -130,40 +130,45 @@ func Create(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// upload file to S3
-	id, err := randomAlphaId()
-	if err != nil {
-		log.Println(err.Error())
-		http.Error(w, `could not generate random id`, 400)
-		return
+	fileURL := "#"
+	fileName := "No Attachment"
+
+	if file != nil && fh != nil {
+		id, err := randomAlphaId()
+		if err != nil {
+			log.Println(err.Error())
+			http.Error(w, `could not generate random id`, 400)
+			return
+		}
+
+		fileExt := path.Ext(fh.Filename)
+		fileName = fmt.Sprintf("upload-%d-%s%s", time.Now().Unix(), id, fileExt)
+
+		log.Printf("uploading %s ...\n", fileName)
+
+		s3c := &s3.S3{
+			Bucket:    conf[kS3Bucket],
+			AccessKey: conf[kS3Key],
+			Secret:    conf[kS3Secret],
+			Path:      conf[kS3Path],
+		}
+		s3o := s3c.Object(fileName)
+		s3w := s3o.Writer()
+
+		_, err = io.Copy(s3w, file)
+		if err != nil {
+			s3w.Abort()
+			log.Println(err.Error())
+			http.Error(w, `could not upload file to S3`, 400)
+			return
+		}
+		s3w.Close()
+
+		fileURL = fmt.Sprintf("http://s3.amazonaws.com/%s/%s", s3c.Bucket, s3o.Key())
 	}
-
-	fileExt := path.Ext(fh.Filename)
-	fileName := fmt.Sprintf("upload-%d-%s%s", time.Now().Unix(), id, fileExt)
-
-	log.Printf("uploading %s ...\n", fileName)
-
-	s3c := &s3.S3{
-		Bucket:    conf[kS3Bucket],
-		AccessKey: conf[kS3Key],
-		Secret:    conf[kS3Secret],
-		Path:      conf[kS3Path],
-	}
-	s3o := s3c.Object(fileName)
-	s3w := s3o.Writer()
-
-	_, err = io.Copy(s3w, file)
-	if err != nil {
-		s3w.Abort()
-		log.Println(err.Error())
-		http.Error(w, `could not upload file to S3`, 400)
-		return
-	}
-	s3w.Close()
-
-	log.Printf("done. (%s)", fileName)
 
 	// create new issue on GitHub
-	text := fmt.Sprintf(issueFmt, name, email, prodVer, platform, s3o.Key(), s3c.Bucket, s3o.Key(), info, desc, repro)
+	text := fmt.Sprintf(issueFmt, name, email, prodVer, platform, fileName, fileURL, info, desc, repro)
 
 	v := map[string]interface{}{
 		"title":  summary,

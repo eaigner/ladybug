@@ -2,86 +2,88 @@
 <html>
 <head>
 	<title>Report an Issue</title>
+	<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+	<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/parsley.js/1.2.3/parsley.min.js"></script>
+	<style type="text/css">
+		body {
+			font-family: Helvetica, Arial, sans-serif;
+			font-size: 13px;
+			background-color: #f8f8f8;
+			color: #333;
+			margin: 40px;
+		}
+		input[type=text], textarea {
+			width: 100%;
+			border: 1px solid #ccc;
+			border-radius: 3px;
+			padding: 5px;
+		}
+		textarea {
+			min-height: 60px;
+		}
+		select {
+			width: 100%;
+		}
+		label {
+			font-weight: bold;
+			display: block;
+			margin: 10px 0 5px 0;
+			text-shadow: 0 1px 0 #fff;
+		}
+		.issue,
+		.title,
+		.send,
+		.note,
+		.hint {
+			width: 400px;
+			display: block;
+			margin: 0 auto;
+		}
+		.hint {
+			color: #aaa;
+			font-size: 12px;
+			margin-top: 5px;
+		}
+		.note {
+			background-color: #FFF6AC;
+			border: 1px solid #FFEB5B;
+			border-radius: 3px;
+			padding: 5px;
+			text-align: center;
+			margin: 30px 0;
+		}
+		.title {
+			margin: 30px auto;
+			text-align: center;
+		}
+		.send {
+			margin: 20px 0;
+		}
+	</style>
 </head>
-<style type="text/css">
-	body {
-		font-family: Helvetica, Arial, sans-serif;
-		font-size: 13px;
-		background-color: #f8f8f8;
-		color: #333;
-		margin: 40px;
-	}
-	input[type=text], textarea {
-		width: 100%;
-		border: 1px solid #ccc;
-		border-radius: 3px;
-		padding: 5px;
-	}
-	textarea {
-		min-height: 60px;
-	}
-	select {
-		width: 100%;
-	}
-	label {
-		font-weight: bold;
-		display: block;
-		margin: 10px 0 5px 0;
-		text-shadow: 0 1px 0 #fff;
-	}
-	.issue,
-	.title,
-	.send,
-	.note,
-	.hint {
-		width: 400px;
-		display: block;
-		margin: 0 auto;
-	}
-	.hint {
-		color: #aaa;
-		font-size: 12px;
-		margin-top: 5px;
-	}
-	.note {
-		background-color: #FFF6AC;
-		border: 1px solid #FFEB5B;
-		border-radius: 3px;
-		padding: 5px;
-		text-align: center;
-		margin: 30px 0;
-	}
-	.title {
-		margin: 30px auto;
-		text-align: center;
-	}
-	.send {
-		margin: 20px 0;
-	}
-</style>
 <body>
 
 <h2 class="title">Report an Issue</h2>
 
-<form class="issue" action="/create" method="POST" enctype="multipart/form-data" onsubmit="document.getElementById('submit_btn').disabled = 1;">
+<form class="issue" action="/create" method="POST" enctype="multipart/form-data" data-parsley-validate>
 	<label for="name">Name</label>
-	<input type="text" name="name"></input>
+	<input type="text" name="name" id="name" title="Name" required></input>
 	<p class="hint">Your name</p>
 
 	<label for="email">Email</label>
-	<input type="text" name="email"></input>
+	<input type="text" name="email" id="email" title="Email" required></input>
 	<p class="hint">The email address we should reply to</p>
 
 	<label for="info">Customer Info</label>
-	<input type="text" name="info"></input>
+	<input type="text" name="info" id="info" title="Customer Info" required></input>
 	<p class="hint">Provide additional info like your license email, etc.</p>
 
 	<label for="prodver">Product Version</label>
-	<input type="text" name="prodver"></input>
+	<input type="text" name="prodver" id="prodver" title="Product Version" required></input>
 	<p class="hint">The version you are using, e.g. 3.7.x</p>
 
 	<label for="platform">Platform</label>
-	<select name="platform">
+	<select name="platform" id="platform" title="Platform" required>
     	<option>iOS 7</option>
     	<option>iOS 6</option>
     	<option>Simulator</option>
@@ -89,16 +91,16 @@
     </select>
     <p class="hint">The platform you are experiencing the issue on</p>
 
-    <label for="summary">Summary</label>
-	<input type="text" name="summary"></input>
+	<label for="summary">Summary</label>
+	<input type="text" name="summary" id="summary" title="Summary" required></input>
 	<p class="hint">One line summary of your issue</p>
 
 	<label for="desc">Description</label>
-	<textarea name="desc"></textarea>
+	<textarea name="desc" id="desc" title="Description" required></textarea>
 	<p class="hint">Describe your issue in more detail</p>
 
 	<label for="repro">Steps to reproduce the issue</label>
-	<textarea name="repro"></textarea>
+	<textarea name="repro" id="repro" title="Steps to reproduce" required></textarea>
 	<p class="hint">Tell us how we can reproduce your problem step by step</p>
 
 	<label for="file">Upload an example project</label>
