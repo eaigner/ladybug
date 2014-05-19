@@ -1,0 +1,10 @@
+{
+	"ImportPath": "github.com/eaigner/ladybug",
+	"GoVersion": "go1.2",
+	"Deps": [
+		{
+			"ImportPath": "github.com/eaigner/s3",
+			"Rev": "26999756aa1d6a589dc349b6f8793003ad6df8f9"
+		}
+	]
+}
