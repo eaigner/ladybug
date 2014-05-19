@@ -65,7 +65,7 @@
 
 <h2 class="title">Report an Issue</h2>
 
-<form class="issue" action="/create" method="POST" enctype="multipart/form-data" data-parsley-validate>
+<form class="issue" action="/create" method="POST" enctype="multipart/form-data" data-parsley-validate onsubmit="submitForm()">
 	<label for="name">Name</label>
 	<input type="text" name="name" id="name" title="Name" required></input>
 	<p class="hint">Your name</p>
@@ -113,6 +113,12 @@
 
 	<input class="send" id="submit_btn" type="submit" value="Send"></input
 </form>
+
+<script type="text/javascript">
+	window.submitForm = function () {
+		document.getElementById('submit_btn').disabled = 1;
+	};
+</script>
 
 </body>
 </html>
