@@ -3,6 +3,10 @@
 
 Ladybug is a simple Heroku hosted tool for customers to report issues. Attachments are uploaded to S3 and an issue is created on GitHub for the specified repository (can also be private). It was originally written to help with support for [PSPDFKit](http://pspdfkit.com).
 
+When creating an app on Heroku you have to specify the Go buildpack like so
+
+    heroku create -b https://github.com/kr/heroku-buildpack-go.git
+
 To use it you have to set a few environment variables on Heroku. Those are:
 
 * `PORT` (optional): Set this for a local environment, Heroku will set this for you in production
